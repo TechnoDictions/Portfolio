@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Muhammad Ahmad - Portfolio</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Import Map for Gemini API -->
+    <script type="importmap">
+{
+  "imports": {
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.31.0",
+    "react": "https://aistudiocdn.com/react@^19.2.1",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0",
+    "react/": "https://aistudiocdn.com/react@^19.2.1/"
+  }
+}
+</script>
+
+    <style>
+      body { font-family: 'Inter', sans-serif; }
+      
+      /* Custom scrollbar */
+      ::-webkit-scrollbar { width: 8px; }
+      ::-webkit-scrollbar-track { background: #18181b; }
+      ::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 4px; }
+      ::-webkit-scrollbar-thumb:hover { background: #52525b; }
+      
+      .glass-panel {
+        background: rgba(24, 24, 27, 0.7);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+      }
+
+      /* Animations */
+      @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      
+      .animate-fade-in-up {
+        animation: fadeInUp 0.6s ease-out forwards;
+        opacity: 0; 
+      }
+      
+      .delay-100 { animation-delay: 0.1s; }
+      .delay-200 { animation-delay: 0.2s; }
+      .delay-300 { animation-delay: 0.3s; }
+      .delay-400 { animation-delay: 0.4s; }
+
+      /* Loader */
+      .loader {
+        border: 2px solid #3f3f46;
+        border-top: 2px solid #2dd4bf; /* teal-400 */
+        border-radius: 50%;
+        width: 16px;
+        height: 16px;
+        animation: spin 1s linear infinite;
+      }
+      @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body class="bg-zinc-950 text-zinc-100 antialiased selection:bg-teal-500 selection:text-white">
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-6 bg-transparent">
+        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold tracking-tighter text-white">
+             MH<span class="text-teal-400">.</span>
+            </a>
+
+            <!-- Desktop Nav -->
+            <div class="hidden md:flex space-x-8">
+                <a href="#hero" class="text-sm font-medium text-zinc-400 hover:text-teal-400 transition-colors">Home</a>
+                <a href="#about" class="text-sm font-medium text-zinc-400 hover:text-teal-400 transition-colors">About</a>
+                <a href="#timeline" class="text-sm font-medium text-zinc-400 hover:text-teal-400 transition-colors">Timeline</a>
+                <a href="#projects" class="text-sm font-medium text-zinc-400 hover:text-teal-400 transition-colors">Projects</a>
+                <a href="#contact" class="text-sm font-medium text-zinc-400 hover:text-teal-400 transition-colors">Contact</a>
+            </div>
+
+            <!-- Mobile Toggle -->
+            <button id="mobile-menu-btn" class="md:hidden text-zinc-300 hover:text-white">
+                <i data-lucide="menu"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 right-0 bg-zinc-900 border-b border-zinc-800 p-6 shadow-xl">
+            <div class="flex flex-col space-y-4">
+                <a href="#hero" class="mobile-link text-lg font-medium text-zinc-300 hover:text-teal-400">Home</a>
+                <a href="#about" class="mobile-link text-lg font-medium text-zinc-300 hover:text-teal-400">About</a>
+                <a href="#timeline" class="mobile-link text-lg font-medium text-zinc-300 hover:text-teal-400">Timeline</a>
+                <a href="#projects" class="mobile-link text-lg font-medium text-zinc-300 hover:text-teal-400">Projects</a>
+                <a href="#contact" class="mobile-link text-lg font-medium text-zinc-300 hover:text-teal-400">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section id="hero" class="min-h-screen flex flex-col justify-center relative pt-20">
+            <div class="max-w-7xl mx-auto px-6 w-full">
+                <div class="space-y-6 max-w-3xl">
+                    <p class="text-teal-400 font-medium tracking-wide animate-fade-in-up">
+                        Aslam U Alaikum,<br>My name is 
+                    </p>
+                    <h1 class="text-5xl md:text-7xl font-bold text-white tracking-tight animate-fade-in-up delay-100">
+                        Muhammad Ahmad
+                    </h1>
+                    <h2 class="text-4xl md:text-6xl font-bold text-zinc-400 tracking-tight animate-fade-in-up delay-200">
+                        A Web Developer
+                    </h2>
+                    <p class="text-xl text-zinc-400 max-w-xl leading-relaxed animate-fade-in-up delay-300">
+                        Building digital experiences with code and creativity.
+                    </p>
+                    
+                    <div class="pt-8 animate-fade-in-up delay-400">
+                        <a href="#contact" class="inline-block px-8 py-4 bg-teal-500 hover:bg-teal-600 text-white font-medium rounded-full transition-all transform hover:scale-105 shadow-lg shadow-teal-500/20">
+                            Get In Touch
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="absolute bottom-10 left-1/2 -translate-x-1/2 text-zinc-500 animate-bounce">
+                <a href="#about" aria-label="Scroll down">
+                    <i data-lucide="arrow-down"></i>
+                </a>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-24 bg-zinc-900/50">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="grid md:grid-cols-2 gap-16 items-start">
+                    <!-- Bio -->
+                    <div class="space-y-6">
+                        <h2 class="text-3xl font-bold text-white flex items-center gap-4">
+                            <span class="text-teal-400">01.</span> About Me
+                        </h2>
+                        <div class="h-1 w-20 bg-teal-500 rounded-full"></div>
+                        <p class="text-zinc-400 leading-relaxed text-lg">
+                            I am a passionate developer with a knack for building robust web applications. My journey started with simple HTML pages and has evolved into complex full-stack architectures. I love solving problems and learning new technologies.
+                        </p>
+                    </div>
+
+                    <!-- Skills -->
+                    <div class="space-y-8">
+                        <h3 class="text-2xl font-bold text-white">Technical Skills</h3>
+                        <div class="space-y-6">
+                            <!-- Frontend -->
+                            <div>
+                                <h4 class="text-zinc-300 font-medium mb-3 text-sm uppercase tracking-wider">Frontend</h4>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="px-3 py-1 bg-zinc-800 text-teal-300 text-sm rounded-md border border-zinc-700/50">React</span>
+                                    <span class="px-3 py-1 bg-zinc-800 text-teal-300 text-sm rounded-md border border-zinc-700/50">TypeScript</span>
+                                    <span class="px-3 py-1 bg-zinc-800 text-teal-300 text-sm rounded-md border border-zinc-700/50">Tailwind CSS</span>
+                                    <span class="px-3 py-1 bg-zinc-800 text-teal-300 text-sm rounded-md border border-zinc-700/50">HTML5/CSS3</span>
+                                </div>
+                            </div>
+                            <!-- Backend -->
+                            <div>
+                                <h4 class="text-zinc-300 font-medium mb-3 text-sm uppercase tracking-wider">Backend</h4>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="px-3 py-1 bg-zinc-800 text-teal-300 text-sm rounded-md border border-zinc-700/50">Node.js</span>
+                                    <span class="px-3 py-1 bg-zinc-800 text-teal-300 text-sm rounded-md border border-zinc-700/50">Python</span>
+                                    <span class="px-3 py-1 bg-zinc-800 text-teal-300 text-sm rounded-md border border-zinc-700/50">PostgreSQL</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Timeline Section -->
+        <section id="timeline" class="py-24 relative overflow-hidden">
+            <div class="max-w-4xl mx-auto px-6">
+                <h2 class="text-3xl font-bold text-white mb-16 flex items-center gap-4">
+                    <span class="text-teal-400"></span> My Journey
+                </h2>
+
+                <div class="relative border-l-2 border-zinc-800 ml-4 md:ml-6 space-y-12">
+                    
+                    <!-- Item 1 -->
+                    <div class="relative pl-12 md:pl-16 group">
+                        <div class="absolute -left-[9px] top-0 w-5 h-5 rounded-full border-4 border-zinc-950 bg-teal-500 transition-all duration-300 group-hover:scale-125"></div>
+                        <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-2">
+                            <div>
+                                <h3 class="text-xl font-bold text-white group-hover:text-teal-400 transition-colors">Web Developer</h3>
+                                <div class="flex items-center gap-2 text-zinc-400 font-medium mt-1">
+                                    <i data-lucide="briefcase" class="w-4 h-4"></i>
+                                    <span>Online.</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2 text-xs font-mono text-zinc-500 bg-zinc-900/50 px-3 py-1 rounded-full w-fit h-fit border border-zinc-800">
+                                <i data-lucide="calendar" class="w-3 h-3"></i>
+                                2020 - Present
+                            </div>
+                        </div>
+                        <p class="text-zinc-400 leading-relaxed mt-3 max-w-2xl">
+                            
+                        </p>
+                    </div>
+
+                    <!-- Item 2 -->
+                    <div class="relative pl-12 md:pl-16 group">
+                        <div class="absolute -left-[9px] top-0 w-5 h-5 rounded-full border-4 border-zinc-950 bg-teal-500 transition-all duration-300 group-hover:scale-125"></div>
+                        <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-2">
+                            <div>
+                                <h3 class="text-xl font-bold text-white group-hover:text-teal-400 transition-colors">B.S Computer Science </h3>
+                                <div class="flex items-center gap-2 text-zinc-400 font-medium mt-1">
+                                    <i data-lucide="briefcase" class="w-4 h-4"></i>
+                                    <span>Nust University, Islamabad</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2 text-xs font-mono text-zinc-500 bg-zinc-900/50 px-3 py-1 rounded-full w-fit h-fit border border-zinc-800">
+                                <i data-lucide="calendar" class="w-3 h-3"></i>
+                                2026 - Present
+                            </div>
+                        </div>
+                        <p class="text-zinc-400 leading-relaxed mt-3 max-w-2xl">
+                        Studing in The most competitive University of Pakistan ranked 355 in the Worled.Focusing on the computer I am trying to catch the advancments.
+                        </p>
+                    </div>
+
+                    <!-- Item 3 -->
+                    <div class="relative pl-12 md:pl-16 group">
+                        <div class="absolute -left-[9px] top-0 w-5 h-5 rounded-full border-4 border-zinc-950 bg-indigo-500 transition-all duration-300 group-hover:scale-125"></div>
+                        <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-2">
+                            <div>
+                                <h3 class="text-xl font-bold text-white group-hover:text-teal-400 transition-colors">Intermediate - ICS</h3>
+                                <div class="flex items-center gap-2 text-zinc-400 font-medium mt-1">
+                                    <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+                                    <span>Punjab College SKP</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2 text-xs font-mono text-zinc-500 bg-zinc-900/50 px-3 py-1 rounded-full w-fit h-fit border border-zinc-800">
+                                <i data-lucide="calendar" class="w-3 h-3"></i>
+                                2024-2026
+                            </div>
+                        </div>
+                        <p class="text-zinc-400 leading-relaxed mt-3 max-w-2xl">
+                            
+                        </p>
+                    </div>
+
+                    <!-- Item 4 -->
+                    <div class="relative pl-12 md:pl-16 group">
+                        <div class="absolute -left-[9px] top-0 w-5 h-5 rounded-full border-4 border-zinc-950 bg-indigo-500 transition-all duration-300 group-hover:scale-125"></div>
+                        <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-2">
+                            <div>
+                                <h3 class="text-xl font-bold text-white group-hover:text-teal-400 transition-colors">Metric</h3>
+                                <div class="flex items-center gap-2 text-zinc-400 font-medium mt-1">
+                                    <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+                                    <span>SB School</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2 text-xs font-mono text-zinc-500 bg-zinc-900/50 px-3 py-1 rounded-full w-fit h-fit border border-zinc-800">
+                                <i data-lucide="calendar" class="w-3 h-3"></i>
+                                2022 - 2024
+                            </div>
+                        </div>
+                        <p class="text-zinc-400 leading-relaxed mt-3 max-w-2xl">
+                            Focus on Mathematics and Physics.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="py-24 bg-zinc-900/30">
+            <div class="max-w-7xl mx-auto px-6">
+                <h2 class="text-3xl font-bold text-white mb-16 flex items-center gap-4">
+                    <span class="text-teal-400">03.</span> Featured Projects
+                </h2>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    
+                    <!-- Project 1 -->
+                    <div class="group bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden hover:border-teal-500/30 hover:shadow-xl hover:shadow-teal-500/5 transition-all duration-300 flex flex-col">
+                        <div class="relative overflow-hidden h-48">
+                            <div class="absolute inset-0 bg-teal-900/20 group-hover:bg-transparent transition-colors z-10"></div>
+                            <img src="1 (3).png" alt="E-Commerce Dashboard" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500" />
+                        </div>
+                        <div class="p-6 flex-1 flex flex-col">
+                            <div class="flex justify-between items-start mb-4">
+                                <h3 class="text-xl font-bold text-white group-hover:text-teal-400 transition-colors">Blazas Web project.</h3>
+                                <div class="flex gap-3 text-zinc-400">
+                                    <a href="#" class="hover:text-white transition-colors"><i data-lucide="github" class="w-5 h-5"></i></a>
+                                    <a href="https://www.blazas.com" class="hover:text-white transition-colors"><i data-lucide="external-link" class="w-5 h-5"></i></a>
+                                </div>
+                            </div>
+                            <p class="text-zinc-400 text-sm leading-relaxed mb-6 flex-1">
+                                A comprehensive Platform for Multiple Purposes.
+                            </p>
+                            <div class="flex flex-wrap gap-2 mt-auto">
+                                <span class="text-xs font-mono text-teal-500/80">#Tailwind</span>
+                                <span class="text-xs font-mono text-teal-500/80">#js</span>
+                                <span class="text-xs font-mono text-teal-500/80">#SEO</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 2 -->
+                    <div class="group bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden hover:border-teal-500/30 hover:shadow-xl hover:shadow-teal-500/5 transition-all duration-300 flex flex-col">
+                        <div class="relative overflow-hidden h-48">
+                            <div class="absolute inset-0 bg-teal-900/20 group-hover:bg-transparent transition-colors z-10"></div>
+                            <img src="1 (2).png" alt="Task Master AI" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500" />
+                        </div>
+                        <div class="p-6 flex-1 flex flex-col">
+                            <div class="flex justify-between items-start mb-4">
+                                <h3 class="text-xl font-bold text-white group-hover:text-teal-400 transition-colors">ALI ELECTRO TRADERS</h3>
+                                <div class="flex gap-3 text-zinc-400">
+                                    <a href="#" class="hover:text-white transition-colors"><i data-lucide="github" class="w-5 h-5"></i></a>
+                                    <a href="https://www.blazior.com" class="hover:text-white transition-colors"><i data-lucide="external-link" class="w-5 h-5"></i></a>
+                                </div>
+                            </div>
+                            <p class="text-zinc-400 text-sm leading-relaxed mb-6 flex-1">
+                                Online platform of the trader from Lahore.
+                            </p>
+                            <div class="flex flex-wrap gap-2 mt-auto">
+                                <span class="text-xs font-mono text-teal-500/80"></span>
+                                <span class="text-xs font-mono text-teal-500/80">#OpenAI API</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 3 -->
+                    <div class="group bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden hover:border-teal-500/30 hover:shadow-xl hover:shadow-teal-500/5 transition-all duration-300 flex flex-col">
+                        <div class="relative overflow-hidden h-48">
+                            <div class="absolute inset-0 bg-teal-900/20 group-hover:bg-transparent transition-colors z-10"></div>
+                            <img src="1 (1).png" alt="EcoTrack Mobile" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500" />
+                        </div>
+                        <div class="p-6 flex-1 flex flex-col">
+                            <div class="flex justify-between items-start mb-4">
+                                <h3 class="text-xl font-bold text-white group-hover:text-teal-400 transition-colors">The Best Articles</h3>
+                                <div class="flex gap-3 text-zinc-400">
+                                    <a href="#" class="hover:text-white transition-colors"><i data-lucide="github" class="w-5 h-5"></i></a>
+                                    <a href="https://www.blazas.com/articles.html" class="hover:text-white transition-colors"><i data-lucide="external-link" class="w-5 h-5"></i></a>
+                                </div>
+                            </div>
+                            <p class="text-zinc-400 text-sm leading-relaxed mb-6 flex-1">
+                                Mobile freindly platform of Fully Dynamic articles.
+                            </p>
+                            <div class="flex flex-wrap gap-2 mt-auto">
+                                <span class="text-xs font-mono text-teal-500/80">#PWA</span>
+                                <span class="text-xs font-mono text-teal-500/80"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Contact Footer -->
+    <footer id="contact" class="py-20 bg-zinc-950 border-t border-zinc-800">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <h2 class="text-4xl font-bold text-white mb-6">Let's Build Something Together</h2>
+            <p class="text-zinc-400 mb-10 max-w-xl mx-auto">
+                I'm currently looking for new opportunities. Whether you have a question or just want to say hi, I'll try my best to get back to you!
+            </p>
+
+            <a href="mailto:blazasinfo@gmail.com" class="inline-flex items-center gap-2 px-8 py-4 border border-teal-500 text-teal-400 rounded-md hover:bg-teal-500/10 transition-colors text-lg font-medium mb-16">
+                <i data-lucide="mail"></i>
+                Say Hello
+            </a>
+
+            <div class="flex flex-col md:flex-row justify-between items-center border-t border-zinc-800 pt-10 text-sm text-zinc-500">
+                <div class="flex items-center gap-6 mb-4 md:mb-0">
+                    <a href="" class="hover:text-teal-400 transition-colors">GitHub</a>
+                    <a href="#" class="hover:text-teal-400 transition-colors">LinkedIn</a>
+                    <a href="#" class="hover:text-teal-400 transition-colors">Twitter</a>
+                </div>
+                
+                <div class="flex items-center gap-4">
+                    <span class="flex items-center gap-1">
+                        <i data-lucide="map-pin" class="w-3.5 h-3.5"></i> Sheikhupura, Punjab
+                    </span>
+                    <span>© <span id="year"></span> Muhammad Ahmad</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- AI Assistant Floating Button & Chat Window -->
+    <div class="fixed bottom-6 right-6 z-50 font-sans">
+        <!-- Chat Window (Initially Hidden) -->
+        <div id="chat-window" class="hidden absolute bottom-16 right-0 w-80 sm:w-96 bg-zinc-900 border border-zinc-700 rounded-2xl shadow-2xl flex flex-col overflow-hidden origin-bottom-right" style="height: 500px;">
+            <!-- Header -->
+            <div class="bg-zinc-800 p-4 border-b border-zinc-700 flex justify-between items-center">
+                <div class="flex items-center gap-2">
+                    <div class="bg-teal-500/20 p-1.5 rounded-lg">
+                        <i data-lucide="bot" class="text-teal-400 w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-white font-medium text-sm">Portfolio Assistant</h3>
+                        <span class="text-xs text-zinc-400 flex items-center gap-1">
+                            <span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span> Online
+                        </span>
+                    </div>
+                </div>
+                <button id="close-chat" class="text-zinc-400 hover:text-white transition-colors">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- Messages Area -->
+            <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-4 bg-zinc-900 scrollbar-thin scrollbar-thumb-zinc-700">
+                <!-- Initial Message -->
+                <div class="flex gap-3">
+                    <div class="w-8 h-8 rounded-full bg-teal-900/50 flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="bot" class="text-teal-400 w-3.5 h-3.5"></i>
+                    </div>
+                    <div class="p-3 rounded-2xl text-sm max-w-[80%] bg-zinc-800/50 text-zinc-300 border border-zinc-700/50 rounded-tl-none">
+                        Hi! I'm an AI assistant trained on Muhammad Ahmad's portfolio. Ask me anything about their experience or skills!
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <form id="chat-form" class="p-3 bg-zinc-800 border-t border-zinc-700">
+                <div class="relative">
+                    <input type="text" id="chat-input" placeholder="Ask about my skills..." autocomplete="off"
+                        class="w-full bg-zinc-900 text-white text-sm rounded-xl pl-4 pr-12 py-3 focus:outline-none focus:ring-1 focus:ring-teal-500 border border-zinc-700 placeholder-zinc-500"
+                    />
+                    <button type="submit" id="send-btn" disabled class="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 bg-teal-500 text-white rounded-lg hover:bg-teal-600 disabled:opacity-50 disabled:hover:bg-teal-500 transition-colors">
+                        <i data-lucide="send" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Toggle Button -->
+        <button id="toggle-chat" class="w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 transform hover:scale-110 bg-teal-500 text-white hover:bg-teal-600">
+            <i data-lucide="message-circle" class="w-6 h-6"></i>
+        </button>
+    </div>
+
+    <!-- Main Logic Script -->
+    <script type="module">
+        import { GoogleGenAI } from "@google/genai";
+
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Set Current Year
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // --- Navigation Logic ---
+        const navbar = document.getElementById('navbar');
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('bg-zinc-950/80', 'backdrop-blur-md', 'border-b', 'border-zinc-800', 'py-4');
+                navbar.classList.remove('bg-transparent', 'py-6');
+            } else {
+                navbar.classList.add('bg-transparent', 'py-6');
+                navbar.classList.remove('bg-zinc-950/80', 'backdrop-blur-md', 'border-b', 'border-zinc-800', 'py-4');
+            }
+        });
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            // Toggle icon between menu and x
+            const icon = mobileMenuBtn.querySelector('svg');
+            // Re-render handled by logic, but for simplicity in vanilla, just toggle visibility
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+
+        // --- AI Assistant Logic ---
+        const toggleChatBtn = document.getElementById('toggle-chat');
+        const closeChatBtn = document.getElementById('close-chat');
+        const chatWindow = document.getElementById('chat-window');
+        const chatForm = document.getElementById('chat-form');
+        const chatInput = document.getElementById('chat-input');
+        const chatMessages = document.getElementById('chat-messages');
+        const sendBtn = document.getElementById('send-btn');
+        
+        let isChatOpen = false;
+        let messagesHistory = []; // Stores conversation context
+        let ai = null;
+
+        // Portfolio Data for AI Context
+        const PORTFOLIO_CONTEXT = {
+            name: "Muhammad Ahmad",
+            role: "Full Stack Developer",
+            skills: ["React", "TypeScript", "Tailwind CSS", "Node.js", "Python", "PostgreSQL"],
+            timeline: [
+                { year: "2023-Present", role: "Senior Frontend Engineer", company: "Tech Innovations Inc." },
+                { year: "2021-2023", role: "Full Stack Developer", company: "Creative Solutions Agency" },
+                { year: "2017-2021", degree: "B.S. Computer Science", school: "University of Technology" }
+            ],
+            projects: [
+                { name: "E-Commerce Dashboard", tech: "React, D3.js" },
+                { name: "Task Master AI", tech: "TypeScript, OpenAI" },
+                { name: "EcoTrack Mobile", tech: "PWA, Firebase" }
+            ]
+        };
+
+        function toggleChat() {
+            isChatOpen = !isChatOpen;
+            if (isChatOpen) {
+                chatWindow.classList.remove('hidden');
+                chatWindow.classList.add('animate-fade-in-up');
+                toggleChatBtn.classList.remove('bg-teal-500', 'hover:bg-teal-600');
+                toggleChatBtn.classList.add('bg-zinc-700');
+                toggleChatBtn.innerHTML = '<i data-lucide="x" class="w-6 h-6"></i>';
+                lucide.createIcons();
+                chatInput.focus();
+            } else {
+                chatWindow.classList.add('hidden');
+                chatWindow.classList.remove('animate-fade-in-up');
+                toggleChatBtn.classList.add('bg-teal-500', 'hover:bg-teal-600');
+                toggleChatBtn.classList.remove('bg-zinc-700');
+                toggleChatBtn.innerHTML = '<i data-lucide="message-circle" class="w-6 h-6"></i>';
+                lucide.createIcons();
+            }
+        }
+
+        toggleChatBtn.addEventListener('click', toggleChat);
+        closeChatBtn.addEventListener('click', toggleChat);
+
+        chatInput.addEventListener('input', () => {
+            sendBtn.disabled = chatInput.value.trim() === '';
+        });
+
+        function appendMessage(role, text) {
+            const div = document.createElement('div');
+            div.className = `flex gap-3 ${role === 'user' ? 'flex-row-reverse' : ''}`;
+            
+            const avatarHtml = role === 'user' 
+                ? `<div class="w-8 h-8 rounded-full bg-zinc-700 flex items-center justify-center flex-shrink-0"><i data-lucide="user" class="text-zinc-300 w-3.5 h-3.5"></i></div>`
+                : `<div class="w-8 h-8 rounded-full bg-teal-900/50 flex items-center justify-center flex-shrink-0"><i data-lucide="bot" class="text-teal-400 w-3.5 h-3.5"></i></div>`;
+            
+            const bubbleClass = role === 'user' 
+                ? 'bg-zinc-800 text-white rounded-tr-none' 
+                : 'bg-zinc-800/50 text-zinc-300 border border-zinc-700/50 rounded-tl-none';
+
+            div.innerHTML = `
+                ${avatarHtml}
+                <div class="p-3 rounded-2xl text-sm max-w-[80%] ${bubbleClass}">
+                    ${text}
+                </div>
+            `;
+            
+            chatMessages.appendChild(div);
+            lucide.createIcons({ root: div });
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function appendLoader() {
+            const div = document.createElement('div');
+            div.id = 'ai-loader';
+            div.className = 'flex gap-3';
+            div.innerHTML = `
+                <div class="w-8 h-8 rounded-full bg-teal-900/50 flex items-center justify-center flex-shrink-0">
+                    <i data-lucide="bot" class="text-teal-400 w-3.5 h-3.5"></i>
+                </div>
+                <div class="bg-zinc-800/50 p-3 rounded-2xl rounded-tl-none border border-zinc-700/50 flex items-center">
+                   <div class="loader"></div>
+                </div>
+            `;
+            chatMessages.appendChild(div);
+            lucide.createIcons({ root: div });
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            return div;
+        }
+
+        chatForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const text = chatInput.value.trim();
+            if (!text) return;
+
+            // Clear input
+            chatInput.value = '';
+            sendBtn.disabled = true;
+
+            // Add User Message
+            appendMessage('user', text);
+            messagesHistory.push({ role: 'user', parts: [{ text: text }] });
+
+            // Add Loader
+            const loader = appendLoader();
+
+            try {
+                if (!ai) {
+                    ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+                }
+
+                const systemInstruction = `
+                    You are a friendly and professional AI portfolio assistant for Muhammad Ahmad.
+                    Your goal is to answer visitor questions based STRICTLY on the provided JSON context.
+                    
+                    Context: ${JSON.stringify(PORTFOLIO_CONTEXT)}
+                    
+                    Guidelines:
+                    - Be concise and professional.
+                    - If the answer isn't in the context, say "I don't have that information in my records."
+                    - Highlight Ahmad's strengths.
+                `;
+
+                const response = await ai.models.generateContent({
+                    model: 'gemini-2.5-flash',
+                    contents: messagesHistory,
+                    config: { systemInstruction: systemInstruction }
+                });
+
+                const reply = response.text || "I'm having trouble connecting right now.";
+                
+                // Remove loader
+                loader.remove();
+                
+                // Add AI Message
+                appendMessage('model', reply);
+                messagesHistory.push({ role: 'model', parts: [{ text: reply }] });
+
+            } catch (error) {
+                console.error(error);
+                loader.remove();
+                appendMessage('model', "Sorry, I encountered an error. Please check your API key.");
+            }
+        });
+
+    </script>
+</body>
+</html>
